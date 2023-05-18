@@ -31,5 +31,5 @@ cd HoRNDIS
 xcodebuild -sdk macosx -configuration Release
 sudo cp -rv build/Release/HoRNDIS.kext /Library/Extensions/
 ```
--Go to System Preferences → Security & Privacy and approve the HoRNDIS kernel extension.
+- Go to System Preferences → Security & Privacy and approve the HoRNDIS kernel extension.
 
