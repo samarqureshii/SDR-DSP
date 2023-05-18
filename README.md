@@ -16,6 +16,7 @@
 - Follow steps 2〜4 from above.
 - Go to Utilities → Terminal.
 - Type in the following to fully disable SIP: `csrutil disable`
+
 <br> **Note:** It is possible to only partially disable the part of SIP that enforces kext signature verification `csrutil enable --without kext`, but according to Apple, this is apparently an "unsupported configuration". Use it if you wish (as many do already), but please make sure to read and fully understand the warning that csrutil gives if you try.
 Reboot your Apple Silicon Mac.
 ### 3. Compiling HoRNDIS for Apple Silicon (arm64e)
@@ -26,6 +27,7 @@ Reboot your Apple Silicon Mac.
 - Agree to Xcode Licence `sudo xcodebuild -license`
 - Now we can clone the repo. Run the following in Terminal:
 ```
+cd ~
 git clone --recursive https://github.com/jwise/HoRNDIS.git
 cd HoRNDIS
 xcodebuild -sdk macosx -configuration Release
