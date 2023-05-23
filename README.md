@@ -51,11 +51,13 @@ root@pluto's password: analog
 # uname -a
 Linux pluto 4.6.0-08511-gc1315e6-dirty #247 SMP PREEMPT Mon Oct 24 16:46:25 CEST 2016 armv7l GNU/Linux
 # exit
-Connection to 192.168.2.1 closed.```
+Connection to 192.168.2.1 closed.
+```
 
 - If you have `sshpass` installed, you can use that so you dont need to type in a password:
 
-```analog@imhotep:~/pluto$ sshpass -panalog ssh plutosdr
+```
+analog@imhotep:~/pluto$ sshpass -panalog ssh plutosdr
 Warning: Permanently added 'pluto' (ECDSA) to the list of known hosts.
 Welcome to:
 ______ _       _        _________________
@@ -66,4 +68,5 @@ ______ _       _        _________________
 \_|   |_|\__,_|\__\___/\____/|___/ \_| \_|
 
 http://wiki.analog.com/university/tools/pluto
-# ```
+# 
+```
