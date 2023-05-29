@@ -97,7 +97,8 @@ samarqureshi@MacBook-Air-2 ~ %
 
 ## IIO-Scope Installation
 >The ADI IIO Oscilloscope supports plotting of the captured data in four different modes (time domain, frequency domain, constellation and cross-correlation). The application also allows to view and modify several settings of the evaluation board's devices.
-
+- Make sure Homebrew is installed
+    - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` and follow the installation commands
 ```
 brew update
 brew upgrade
@@ -109,3 +110,6 @@ brew install --verbose --build-from-source iio-oscilloscope
 
 
 ## GNU Radio Installation for Apple Silicon
+>GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
+
+### XQuartz
