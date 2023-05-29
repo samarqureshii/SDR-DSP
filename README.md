@@ -1,4 +1,4 @@
-# [plutoSDR tutorial](https://wiki.analog.com/university/tools/pluto/users/quick_start)
+# plutoSDR tutorial
 ## Installing the HoRNDIS driver on Apple Silicon
 > HoRNDIS is a driver for Mac OS X that allows you to use your RNDIS to get network access to Pluto. It is required for Remote Network Driver Interface Specification (RNDIS) which is a USB protocol to provides a virtual Ethernet link.
 ### 1. Switching to "Reduced Security" mode
@@ -95,7 +95,8 @@ samarqureshi@MacBook-Air-2 ~ %
 ```
 
 
-## Oscilloscope
+## IIO-Scope Installation
+>The ADI IIO Oscilloscope supports plotting of the captured data in four different modes (time domain, frequency domain, constellation and cross-correlation). The application also allows to view and modify several settings of the evaluation board's devices.
 
 ```
 brew update
