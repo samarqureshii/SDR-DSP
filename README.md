@@ -1,5 +1,5 @@
 # [plutoSDR tutorial](https://wiki.analog.com/university/tools/pluto/users/quick_start)
-## [Installing the HoRNDIS driver on Apple Silicon](https://wiki.analog.com/university/tools/pluto/drivers/osx)
+## Installing the HoRNDIS driver on Apple Silicon
 > HoRNDIS is a driver for Mac OS X that allows you to use your RNDIS to get network access to Pluto. It is required for Remote Network Driver Interface Specification (RNDIS) which is a USB protocol to provides a virtual Ethernet link.
 ### 1. Switching to "Reduced Security" mode
 - Shut down your Apple Silicon Mac.
