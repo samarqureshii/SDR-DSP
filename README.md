@@ -1,4 +1,5 @@
 # plutoSDR tutorial
+>If you'd like to avoid all this mess and just use Linux, run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org). To install the Linux drivers, follow [this guide](https://wiki.analog.com/university/tools/pluto/drivers/linux). 
 ## Installing the HoRNDIS driver on Apple Silicon
 > HoRNDIS is a driver for Mac OS X that allows you to use your RNDIS to get network access to Pluto. It is required for Remote Network Driver Interface Specification (RNDIS) which is a USB protocol to provides a virtual Ethernet link.
 ### 1. Switching to "Reduced Security" mode
