@@ -1,6 +1,24 @@
-# plutoSDR tutorial
->If you'd like to avoid all this mess and just use Arch Linux, run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org). To install the Linux drivers, follow [this guide](https://wiki.analog.com/university/tools/pluto/drivers/linux). 
-## Installing the HoRNDIS driver on Apple Silicon
+# bladeRF tutorial on Apple Silicon processors (M1)
+
+> There is a way to install the bladeRF software for macOS using MacPorts, but there is no working download for Apple Silicon. We're going to run it on Asahi (Arch) Linux and build from there instead. For other Linux distributions like Ubuntu, visit [Nuand's offical installation documentation](https://github.com/Nuand/bladeRF)
+- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
+    - Follow the prompts and boot into the new OS
+- Make sure you have the most recent version `sudo pacman -Syu`
+- Install dev tools/libraries `sudo pacman -S base-devel cmake libusb`
+- Clone the repo `git clone https://github.com/Nuand/bladeRF.git`
+- Enter bladeRF directory `cd bladeRF`
+- Make a build directory `mkdir build`, enter in `cd build`
+- Build software `make`
+- Install software `sudo make install`
+
+
+
+
+# GNU Radio on Asahi (Arch) Linux
+
+# plutoSDR tutorial for Apple Silicon 
+
+## Installing the HoRNDIS driver 
 > HoRNDIS is a driver for Mac OS X that allows you to use your RNDIS to get network access to Pluto. It is required for Remote Network Driver Interface Specification (RNDIS) which is a USB protocol to provides a virtual Ethernet link.
 ### 1. Switching to "Reduced Security" mode
 - Shut down your Apple Silicon Mac.
@@ -51,7 +69,7 @@ sudo cp -rv build/Release/HoRNDIS.kext /Library/Extensions/
     ```
     Welcome to Pluto
     pluto login: root
-    Password: 
+    Password: analog
     Welcome to:
     ______ _       _        _________________
     | ___ \ |     | |      /  ___|  _  \ ___ \
@@ -109,6 +127,7 @@ brew install --verbose --build-from-source libad9361-iio
 brew install --verbose --build-from-source iio-oscilloscope
 ```
 
+# GNU Radio Installation for Asahi Linux (Arch Linux on Apple Silicon)
 
 # GNU Radio Installation for Apple Silicon
 >GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
