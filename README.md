@@ -1,6 +1,6 @@
 # bladeRF tutorial on Apple Silicon processors (M1)
 
-> There is a way to install the bladeRF software for macOS using MacPorts, but there is no working download for Apple Silicon. We're going to run it on Asahi (Arch) Linux and build from there instead. For other Linux distributions like Ubuntu, visit [Nuand's offical installation documentation](https://github.com/Nuand/bladeRF)
+> There is a way to install the bladeRF software for macOS giusing MacPorts, but there is no working download for Apple Silicon. We're going to run it on Asahi (Arch) Linux and build from there instead. For other Linux distributions like Ubuntu, visit [Nuand's offical installation documentation](https://github.com/Nuand/bladeRF)
 - Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
     - Follow the prompts and boot into the new OS
 - Make sure you have the most recent version `sudo pacman -Syu`
@@ -10,11 +10,72 @@
 - Make a build directory `mkdir build`, enter in `cd build`
 - Build software `make`
 - Install software `sudo make install`
+- Run `bladeRF-cli -p`
+
+## Troubleshooting
+If you get the error `bladeRF-cli: error while loading shared libraries: libbladeRF.so.2: cannot open shared object file: No such file or directory` after running `bladeRF-cli -p`, try the following:
+- `sudo nano /etc/ld.so.conf`
+- Add this line to the end of the file: `/usr/local/lib`, save and exit
+- `sudo ldconfig`
+
+If you get `Found a bladeRF via VID/PID, but could not open it due to insufficient permissions, or because the device is already open`, try setting up udev rules:
+- `sudo nano /etc/udev/rules.d/88-nuand.rules`
+- Add these lines to the file:
+    ```
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", MODE="0660", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", MODE="0660", GROUP="plugdev"
+    ```
+    - Replace `plugdev` with the actual user (i.e., `samarqureshi`)
+- Save and exit, the reload the rules with:
+    ```
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+    ```
+If that still is not working, reset the permissions:
+- Open each of the following files:
+    ```
+    sudo nano /etc/udev/rules.d/88-nuand-bladerf1.rules
+    sudo nano /etc/udev/rules.d/88-nuand-bladerf2.rules
+    sudo nano /etc/udev/rules.d/88-nuand-bootloader.rules
+    ```
+- Change the `MODE` in each of the files to `0666`
+- Save and exit, then run
+    ```
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+    ```
+- Disconnect and connect the bladeRF device
 
 
+## Basic Commands
+- `bladeRF-cli -i` will start the CLI
+- `bladeRF-cli -l` followed by a path to a file will load the FPGA image
+    - You can view all FPGA images [here](https://www.nuand.com/fpga_images/)
+- `bladeRF-cli -f` followed by a path to a file will update the firmware    
 
 
 # GNU Radio on Asahi (Arch) Linux
+- `sudo pacman -Sy`
+- `sudo pacman -S gnuradio`
+    - If this gives errors with numpy packages, try:
+        `sudo rm /var/lib/pacman/db.lck` to unlock the pacman database
+        `sudo pacman -S --overwrite '*' gnuradio`
+- Confirm installation `gnuradio-config-info --version`
+- Install package `sudo pacman -S gr-osmosdr`
+    - This will most likely give an error since its expecting x86 architecture while we're on arm64, and the package isn't directly available in the Arch User Repository (AUR):
+    - Run the following:
+    ```
+    sudo pacman -S base-devel git
+    git clone https://aur.archlinux.org/gr-osmosdr-git.git
+    cd gr-osmosdr-git
+    ```    
+    - Now lets add support for aarch64: `nano PKGBUILD`, and modify the `arch=` line to: `arch=('i686' 'x86_64' 'aarch64')`
+    - Install additional missing dependencies that are not already in AUR:
+        - 
+    - Try building again `makepkg -si`
+
+
+
 
 # plutoSDR tutorial for Apple Silicon 
 
