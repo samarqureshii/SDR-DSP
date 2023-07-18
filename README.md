@@ -1,6 +1,31 @@
-# bladeRF tutorial on Apple Silicon processors (M1)
+# GNU Radio on Apple Silicon, macOS
+- Install homebrew /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-> There is a way to install the bladeRF software for macOS giusing MacPorts, but there is no working download for Apple Silicon. We're going to run it on Asahi (Arch) Linux and build from there instead. For other Linux distributions like Ubuntu, visit [Nuand's offical installation documentation](https://github.com/Nuand/bladeRF)
+- Make sure you update Xcode and CLI tools if you’re getting x86 compilation errors
+
+- `xcode-select --install` and follow the instructions on the Update window 
+
+- `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
+
+- Then run `brew install gnuradio`
+
+# bladeRF tutorial on Apple Silicon processors (M1)
+`brew install libbladerf`
+- To get it working with GNU Radio, build from source:
+```
+git clone https://github.com/Nuand/gr-bladeRF.git
+cd gr-bladeRF
+mkdir build
+cd build
+brew install pybind11
+cmake ..
+make -j4
+sudo make install
+```
+
+
+---
+## With Asahi Linux
 - Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
     - Follow the prompts and boot into the new OS
 - Make sure you have the most recent version `sudo pacman -Syu`
@@ -53,7 +78,6 @@ If that still is not working, reset the permissions:
     - You can view all FPGA images [here](https://www.nuand.com/fpga_images/)
 - `bladeRF-cli -f` followed by a path to a file will update the firmware    
 
-
 # GNU Radio on Asahi (Arch) Linux
 - `sudo pacman -Sy`
 - `sudo pacman -S gnuradio`
@@ -73,8 +97,6 @@ If that still is not working, reset the permissions:
     - Install additional missing dependencies that are not already in AUR:
         - 
     - Try building again `makepkg -si`
-
-
 
 
 # plutoSDR tutorial for Apple Silicon 
@@ -188,9 +210,7 @@ brew install --verbose --build-from-source libad9361-iio
 brew install --verbose --build-from-source iio-oscilloscope
 ```
 
-# GNU Radio Installation for Asahi Linux (Arch Linux on Apple Silicon)
-
-# GNU Radio Installation for Apple Silicon
+# GNU Radio Installation for Apple Silicon (without Homebrew)
 >GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
 
 ## XQuartz
