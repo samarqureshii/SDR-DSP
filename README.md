@@ -1,5 +1,5 @@
 # GNU Radio on Apple Silicon, macOS
-- Install homebrew /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+- Install homebrew `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
 - Make sure you update Xcode and CLI tools if you’re getting x86 compilation errors
 
