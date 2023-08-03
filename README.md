@@ -8,8 +8,10 @@
 - `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
 
 - Then run `brew install gnuradio`
-- 
+  
 ## GNU Radio With Asahi (Arch) Linux)
+- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
+    - Follow the prompts and boot into the new OS
 - `sudo pacman -Sy`
 - `sudo pacman -S gnuradio`
     - If this gives errors with numpy packages, try:
@@ -45,7 +47,7 @@ sudo make install
 
 
 ---
-## bladeRF software with ith Asahi Linux
+## bladeRF software with Asahi Linux
 - Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
     - Follow the prompts and boot into the new OS
 - Make sure you have the most recent version `sudo pacman -Syu`
