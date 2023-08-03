@@ -8,6 +8,26 @@
 - `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
 
 - Then run `brew install gnuradio`
+- 
+## GNU Radio With Asahi (Arch) Linux)
+- `sudo pacman -Sy`
+- `sudo pacman -S gnuradio`
+    - If this gives errors with numpy packages, try:
+        `sudo rm /var/lib/pacman/db.lck` to unlock the pacman database
+        `sudo pacman -S --overwrite '*' gnuradio`
+- Confirm installation `gnuradio-config-info --version`
+- Install package `sudo pacman -S gr-osmosdr`
+    - This will most likely give an error since its expecting x86 architecture while we're on arm64, and the package isn't directly available in the Arch User Repository (AUR):
+    - Run the following:
+    ```
+    sudo pacman -S base-devel git
+    git clone https://aur.archlinux.org/gr-osmosdr-git.git
+    cd gr-osmosdr-git
+    ```    
+    - Now lets add support for aarch64: `nano PKGBUILD`, and modify the `arch=` line to: `arch=('i686' 'x86_64' 'aarch64')`
+    - Install additional missing dependencies that are not already in AUR:
+        - 
+    - Try building again `makepkg -si`
 
 # bladeRF tutorial on Apple Silicon processors (M1)
 `brew install libbladerf`
@@ -25,7 +45,7 @@ sudo make install
 
 
 ---
-## With Asahi Linux
+## bladeRF software with ith Asahi Linux
 - Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
     - Follow the prompts and boot into the new OS
 - Make sure you have the most recent version `sudo pacman -Syu`
@@ -77,27 +97,6 @@ If that still is not working, reset the permissions:
 - `bladeRF-cli -l` followed by a path to a file will load the FPGA image
     - You can view all FPGA images [here](https://www.nuand.com/fpga_images/)
 - `bladeRF-cli -f` followed by a path to a file will update the firmware    
-
-# GNU Radio on Asahi (Arch) Linux
-- `sudo pacman -Sy`
-- `sudo pacman -S gnuradio`
-    - If this gives errors with numpy packages, try:
-        `sudo rm /var/lib/pacman/db.lck` to unlock the pacman database
-        `sudo pacman -S --overwrite '*' gnuradio`
-- Confirm installation `gnuradio-config-info --version`
-- Install package `sudo pacman -S gr-osmosdr`
-    - This will most likely give an error since its expecting x86 architecture while we're on arm64, and the package isn't directly available in the Arch User Repository (AUR):
-    - Run the following:
-    ```
-    sudo pacman -S base-devel git
-    git clone https://aur.archlinux.org/gr-osmosdr-git.git
-    cd gr-osmosdr-git
-    ```    
-    - Now lets add support for aarch64: `nano PKGBUILD`, and modify the `arch=` line to: `arch=('i686' 'x86_64' 'aarch64')`
-    - Install additional missing dependencies that are not already in AUR:
-        - 
-    - Try building again `makepkg -si`
-
 
 # plutoSDR tutorial for Apple Silicon 
 
