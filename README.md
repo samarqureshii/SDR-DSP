@@ -3,9 +3,9 @@
 
 - Make sure you update Xcode and CLI tools if you’re getting x86 compilation errors
 
-- `xcode-select --install` and follow the instructions on the Update window 
-
-- `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
+  - `xcode-select --install` and follow the instructions on the Update window 
+  
+  - `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
 
 - Then run `brew install gnuradio`
   
