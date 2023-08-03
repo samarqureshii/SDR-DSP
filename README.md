@@ -1,106 +1,4 @@
-# GNU Radio on Apple Silicon, macOS
-- Install homebrew `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-
-- Make sure you update Xcode and CLI tools if you’re getting x86 compilation errors
-
-  - `xcode-select --install` and follow the instructions on the Update window 
-  
-  - `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
-
-- Then run `brew install gnuradio`
-  
-## GNU Radio With Asahi (Arch) Linux)
-- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
-    - Follow the prompts and boot into the new OS
-- `sudo pacman -Sy`
-- `sudo pacman -S gnuradio`
-    - If this gives errors with numpy packages, try:
-        `sudo rm /var/lib/pacman/db.lck` to unlock the pacman database
-        `sudo pacman -S --overwrite '*' gnuradio`
-- Confirm installation `gnuradio-config-info --version`
-- Install package `sudo pacman -S gr-osmosdr`
-    - This will most likely give an error since its expecting x86 architecture while we're on arm64, and the package isn't directly available in the Arch User Repository (AUR):
-    - Run the following:
-    ```
-    sudo pacman -S base-devel git
-    git clone https://aur.archlinux.org/gr-osmosdr-git.git
-    cd gr-osmosdr-git
-    ```    
-    - Now lets add support for aarch64: `nano PKGBUILD`, and modify the `arch=` line to: `arch=('i686' 'x86_64' 'aarch64')`
-    - Install additional missing dependencies that are not already in AUR:
-        - 
-    - Try building again `makepkg -si`
-
-# bladeRF tutorial on Apple Silicon processors (M1)
-`brew install libbladerf`
-- To get it working with GNU Radio, build from source:
-```
-git clone https://github.com/Nuand/gr-bladeRF.git
-cd gr-bladeRF
-mkdir build
-cd build
-brew install pybind11
-cmake ..
-make -j4
-sudo make install
-```
-
-
----
-## bladeRF software with Asahi Linux
-- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
-    - Follow the prompts and boot into the new OS
-- Make sure you have the most recent version `sudo pacman -Syu`
-- Install dev tools/libraries `sudo pacman -S base-devel cmake libusb`
-- Clone the repo `git clone https://github.com/Nuand/bladeRF.git`
-- Enter bladeRF directory `cd bladeRF`
-- Make a build directory `mkdir build`, enter in `cd build`
-- Build software `make`
-- Install software `sudo make install`
-- Run `bladeRF-cli -p`
-
-## Troubleshooting
-If you get the error `bladeRF-cli: error while loading shared libraries: libbladeRF.so.2: cannot open shared object file: No such file or directory` after running `bladeRF-cli -p`, try the following:
-- `sudo nano /etc/ld.so.conf`
-- Add this line to the end of the file: `/usr/local/lib`, save and exit
-- `sudo ldconfig`
-
-If you get `Found a bladeRF via VID/PID, but could not open it due to insufficient permissions, or because the device is already open`, try setting up udev rules:
-- `sudo nano /etc/udev/rules.d/88-nuand.rules`
-- Add these lines to the file:
-    ```
-    SUBSYSTEM=="usb", ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", MODE="0660", GROUP="plugdev"
-    SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", MODE="0660", GROUP="plugdev"
-    ```
-    - Replace `plugdev` with the actual user (i.e., `samarqureshi`)
-- Save and exit, the reload the rules with:
-    ```
-    sudo udevadm control --reload-rules
-    sudo udevadm trigger
-    ```
-If that still is not working, reset the permissions:
-- Open each of the following files:
-    ```
-    sudo nano /etc/udev/rules.d/88-nuand-bladerf1.rules
-    sudo nano /etc/udev/rules.d/88-nuand-bladerf2.rules
-    sudo nano /etc/udev/rules.d/88-nuand-bootloader.rules
-    ```
-- Change the `MODE` in each of the files to `0666`
-- Save and exit, then run
-    ```
-    sudo udevadm control --reload-rules
-    sudo udevadm trigger
-    ```
-- Disconnect and connect the bladeRF device
-
-
-## Basic Commands
-- `bladeRF-cli -i` will start the CLI
-- `bladeRF-cli -l` followed by a path to a file will load the FPGA image
-    - You can view all FPGA images [here](https://www.nuand.com/fpga_images/)
-- `bladeRF-cli -f` followed by a path to a file will update the firmware    
-
-# plutoSDR tutorial for Apple Silicon 
+# plutoSDR tutorial for Apple Silicon (M1)
 
 ## Installing the HoRNDIS driver 
 > HoRNDIS is a driver for Mac OS X that allows you to use your RNDIS to get network access to Pluto. It is required for Remote Network Driver Interface Specification (RNDIS) which is a USB protocol to provides a virtual Ethernet link.
@@ -211,10 +109,44 @@ brew install --verbose --build-from-source libad9361-iio
 brew install --verbose --build-from-source iio-oscilloscope
 ```
 
-# GNU Radio Installation for Apple Silicon (without Homebrew)
->GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
 
-## XQuartz
+# GNU Radio on Apple Silicon, macOS (with Homebrew)
+>GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
+- Install homebrew `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
+- Make sure you update Xcode and CLI tools if you’re getting x86 compilation errors
+
+  - `xcode-select --install` and follow the instructions on the Update window 
+  
+  - `softwareupdate --list` then softwareupdate --install "Command Line Tools" if Command Line Tools shows up under updates
+
+- Then run `brew install gnuradio`
+  
+## GNU Radio With Asahi (Arch) Linux)
+- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
+    - Follow the prompts and boot into the new OS
+- `sudo pacman -Sy`
+- `sudo pacman -S gnuradio`
+    - If this gives errors with numpy packages, try:
+        `sudo rm /var/lib/pacman/db.lck` to unlock the pacman database
+        `sudo pacman -S --overwrite '*' gnuradio`
+- Confirm installation `gnuradio-config-info --version`
+- Install package `sudo pacman -S gr-osmosdr`
+    - This will most likely give an error since its expecting x86 architecture while we're on arm64, and the package isn't directly available in the Arch User Repository (AUR):
+    - Run the following:
+    ```
+    sudo pacman -S base-devel git
+    git clone https://aur.archlinux.org/gr-osmosdr-git.git
+    cd gr-osmosdr-git
+    ```    
+    - Now lets add support for aarch64: `nano PKGBUILD`, and modify the `arch=` line to: `arch=('i686' 'x86_64' 'aarch64')`
+    - Install additional missing dependencies that are not already in AUR:
+        - 
+    - Try building again `makepkg -si`
+
+## GNU Radio Installation for Apple Silicon (without Homebrew)
+
+### XQuartz
 
 XQuartz is needed to run X11 applications in the Docker container. The steps to set it up are:
 
@@ -235,7 +167,7 @@ come from. We found that these always seem to come from `localhost`, so using `1
 luck may vary. To debug, it's possible to use `xhost +`, which will allow connections from any IP (this is potentially
 insecure).
 
-## Docker Desktop
+### Docker Desktop
 
 1. Install Docker Desktop following the [instructions](https://docs.docker.com/docker-for-mac/install/)
 2. It is recommended to increase the number of CPUs and RAM available to Docker. This can be done in the preferences of
@@ -245,7 +177,7 @@ insecure).
 On each boot, the Docker Desktop application needs to be run. Then it is possible to interact with Docker by using
 the different `docker` command in a terminal.
 
-## Testing XQuartz + Docker
+### Testing XQuartz + Docker
 
 Use the following to test that Docker is able to run GUI applications that display on the MacOS screen:
 ```
@@ -257,7 +189,7 @@ gnuradio-docker-env README, another good resource can be
 [this note](https://gist.github.com/cschiewek/246a244ba23da8b9f0e7b11a68bf3285).
 
 
-## Ubuntu Docker image for GNU Radio
+### Ubuntu Docker image for GNU Radio
 
 The [gnuradio-docker-env](https://github.com/igorauad/gnuradio-docker-env) comes with a `Dockerfile` of an Ubuntu
 image with the build dependencies of GNU Radio installed. There is also a `docker-compose.yml` file, as this image is
@@ -291,7 +223,7 @@ images can be renamed by doing `docker tag IMAGE_ID gnuradio` (the `IMAGE_ID` ca
 The existing container can be renamed with `docker rename current_name gnuradio` (the current name can be seen by
 running `docker container ls -a`).
 
-## Running the container again
+### Running the container again
 
 When we exit the container (because we close the terminal, reboot the machine or any other reason), we can run again
 the existing container (plus all modifications we have made since its creation) with
@@ -299,7 +231,7 @@ the existing container (plus all modifications we have made since its creation) 
 docker start -i gnuradio
 ```
 
-## Building and installing GNU Radio
+### Building and installing GNU Radio
 
 1. First we install some packages that we will need:
 ```
@@ -349,7 +281,7 @@ ldconfig
 ```
 (since we're running as root inside the Docker container, it is not necessary to use `sudo`).
 
-## Final configuration
+### Final configuration
 
 We needed to add a few environment variables to `/root/.bashrc`. For this, we do
 ```
@@ -364,7 +296,7 @@ export PYTHONPATH=/usr/local/lib/python3/dist-packages/
 After modifying the `.bashrc` file, the easiest way to apply the settings is to log out of the
 container with Ctrl+D and log in again with `docker start` as described above.
 
-## Running GNU Radio Companion
+### Running GNU Radio Companion
 
 If everything went well, at this point we can run
 ```
@@ -374,3 +306,73 @@ inside the docker container and have a functional GNU Radio companion window on 
 
 If something doesn't work well and the X11 + XQuartz is suspect, it's possible to install and run `xterm`, which prints
 more debug information than `gnuradio-companion`.
+
+# bladeRF tutorial on Apple Silicon processors (M1)
+`brew install libbladerf`
+- To get it working with GNU Radio, build from source:
+```
+git clone https://github.com/Nuand/gr-bladeRF.git
+cd gr-bladeRF
+mkdir build
+cd build
+brew install pybind11
+cmake ..
+make -j4
+sudo make install
+```
+
+## bladeRF with Asahi Linux
+- Run `curl https://alx.sh | sh` in your Terminal to begin installation of [Asahi Linux's Alpha Release](https://asahilinux.org)
+    - Follow the prompts and boot into the new OS
+- Make sure you have the most recent version `sudo pacman -Syu`
+- Install dev tools/libraries `sudo pacman -S base-devel cmake libusb`
+- Clone the repo `git clone https://github.com/Nuand/bladeRF.git`
+- Enter bladeRF directory `cd bladeRF`
+- Make a build directory `mkdir build`, enter in `cd build`
+- Build software `make`
+- Install software `sudo make install`
+- Run `bladeRF-cli -p`
+
+## Troubleshooting
+If you get the error `bladeRF-cli: error while loading shared libraries: libbladeRF.so.2: cannot open shared object file: No such file or directory` after running `bladeRF-cli -p`, try the following:
+- `sudo nano /etc/ld.so.conf`
+- Add this line to the end of the file: `/usr/local/lib`, save and exit
+- `sudo ldconfig`
+
+If you get `Found a bladeRF via VID/PID, but could not open it due to insufficient permissions, or because the device is already open`, try setting up udev rules:
+- `sudo nano /etc/udev/rules.d/88-nuand.rules`
+- Add these lines to the file:
+    ```
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", MODE="0660", GROUP="plugdev"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", MODE="0660", GROUP="plugdev"
+    ```
+    - Replace `plugdev` with the actual user (i.e., `samarqureshi`)
+- Save and exit, the reload the rules with:
+    ```
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+    ```
+If that still is not working, reset the permissions:
+- Open each of the following files:
+    ```
+    sudo nano /etc/udev/rules.d/88-nuand-bladerf1.rules
+    sudo nano /etc/udev/rules.d/88-nuand-bladerf2.rules
+    sudo nano /etc/udev/rules.d/88-nuand-bootloader.rules
+    ```
+- Change the `MODE` in each of the files to `0666`
+- Save and exit, then run
+    ```
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+    ```
+- Disconnect and connect the bladeRF device
+
+
+## Basic Commands
+- `bladeRF-cli -i` will start the CLI
+- `bladeRF-cli -l` followed by a path to a file will load the FPGA image
+    - You can view all FPGA images [here](https://www.nuand.com/fpga_images/)
+- `bladeRF-cli -f` followed by a path to a file will update the firmware    
+
+
+
