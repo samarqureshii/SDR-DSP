@@ -1,32 +1,4 @@
-# GNU Radio source and sink blocks for BladeRF on a Raspberry Pi (Ubuntu)
-> Installation of Nuand's official `gr-bladeRF` GNU radio source and sink blocks for a rpi4
-- Once you've flashed the image onto an SD card and can access the Pi via SSH:
-    ```
-    sudo add-apt-repository ppa:nuandllc/bladerf
-    sudo apt-get update
-    sudo apt-get install -y bladerf libbladerf-dev bladerf-firmware-fx3    
-    sudo apt-get install bladerf-fpga-hostedxa4   # for bladeRF 2.0 Micro A4
-    ```
-    - If you have a different bladeRF SDR, you'll need to load a different FPGA image, which can be found [here](https://www.nuand.com/fpga_images/)
 
-- Check to make sure it is connected an installed using `lsusb` or the following command below. Note that the regular `bladeRF-cli` commands need to be preceded by `sudo` or else it will not detect the connection.
-    ```
-    qrfpi@qoherentpi:~$ sudo bladeRF-cli -i
-    bladeRF> info
-
-    Board:                    Nuand bladeRF 2.0 (bladerf2)
-    Serial #:                 8518b488d3e3443da979680f472bbb87
-    VCTCXO DAC calibration:   0x1f63
-    FPGA size:                49 KLE
-    FPGA loaded:              yes
-    Flash size:               32 Mbit
-    USB bus:                  2
-    USB address:              2
-    USB speed:                SuperSpeed
-    Backend:                  libusb
-    Instance:                 0
-
-    ```
 
 # plutoSDR tutorial for Apple Silicon (M1)
 
@@ -139,6 +111,48 @@ brew install --verbose --build-from-source libad9361-iio
 brew install --verbose --build-from-source iio-oscilloscope
 ```
 
+# GNU Radio source and sink blocks for BladeRF on a Raspberry Pi (Ubuntu)
+> Installation of Nuand's official `gr-bladeRF` GNU radio source and sink blocks for a rpi4
+- Clone the repo and make sure docker is already installed on the **host machine**. 
+    ```
+    git clone https://github.com/Nuand/gr-bladeRF.git
+    ```
+- Once you've flashed the image onto an SD card and can access the Pi via SSH from the host machine. The bladeRF should be connected to the Pi, not the host.
+    ```
+    sudo add-apt-repository ppa:nuandllc/bladerf
+    sudo apt-get update
+    sudo apt-get install -y bladerf libbladerf-dev bladerf-firmware-fx3    
+    sudo apt-get install bladerf-fpga-hostedxa4   # for bladeRF 2.0 Micro A4
+    ```
+    - If you have a different bladeRF SDR, you'll need to load a different FPGA image, which can be found [here](https://www.nuand.com/fpga_images/)
+
+- Check to make sure it is connected an installed using `lsusb` or the following command below. Note that the regular `bladeRF-cli` commands need to be preceded by `sudo` or else it will not detect the connection.
+    ```
+    qrfpi@qoherentpi:~$ sudo bladeRF-cli -i
+    bladeRF> info
+
+    Board:                    Nuand bladeRF 2.0 (bladerf2)
+    Serial #:                 8518b488d3e3443da979680f472bbb87
+    VCTCXO DAC calibration:   0x1f63
+    FPGA size:                49 KLE
+    FPGA loaded:              yes
+    Flash size:               32 Mbit
+    USB bus:                  2
+    USB address:              2
+    USB speed:                SuperSpeed
+    Backend:                  libusb
+    Instance:                 0
+
+    ```
+## Crossplatform build volk and gnuradio using docker and install on RPi
+This step should be done from the **host machine**.
+```
+cd raspberry
+chmod +x build_gnuradio.sh
+```
+
+## Build and install gr-iqbal, gr-osmosdr, gr-bladeRF
+This should be done from the **RPi**.
 
 # GNU Radio on Apple Silicon, macOS (with Homebrew)
 >GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios or other generic processing.
