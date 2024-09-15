@@ -1,4 +1,4 @@
-note that most of this has been compiled from other sources!
+note that some of this has been compiled from other sources!
 
 # plutoSDR tutorial for Apple Silicon (M1)
 
